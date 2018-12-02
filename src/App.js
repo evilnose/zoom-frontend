@@ -1,28 +1,52 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
+// import logo from './logo.svg';
 import './App.css';
+import './bootswatch.css';
+import Dashboard from "./Dashboard";
+import {Container} from "reactstrap";
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+    constructor(props) {
+        super(props);
+        this.state = {
+            verified: false,
+        };
+    }
+
+    render() {
+        if (!this.state.verified)
+            return (
+                <div>
+                    <span className="huge-title">Zoom: take attendance with ease</span>
+                    <div className="outer">
+                        <div className="middle">
+                            <div className="inner">
+                                <input type="text"
+                                       ref={(input) => {
+                                           this.codeInput = input;
+                                       }}
+                                       onKeyPress={this.enterCode.bind(this)}
+                                       placeholder="Enter class code..."
+                                       id="classCode" className="big-input"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        return (
+            <Container>
+                <Dashboard/>
+            </Container>);
+    }
+
+    enterCode(e) {
+        if (e.key === 'Enter')
+            this.setState({verified: true});
+    }
+
+    componentDidMount() {
+        this.codeInput.focus();
+    }
 }
 
 export default App;
